@@ -22,22 +22,20 @@ def init_db_connection():
     return init_unix_connection_engine(db_config)
 
 def init_unix_connection_engine(db_config):
-    db_user = os.environ.get('DB_USER', 'postgres')
-    db_pass = os.environ.get('DB_PASS', 'password')
-    db_name = os.environ.get('DB_NAME', 'votes')
-    db_socket_dir = os.environ.get('DB_SOCKET_DIR', '/cloudsql')
-    cloud_sql_connection_name = os.environ.get('CLOUD_SQL_CONNECTION_NAME', '')
-
     pool = sqlalchemy.create_engine(
         sqlalchemy.engine.url.URL(
             drivername="postgres+pg8000",
-            username=db_user,
-            password=db_pass,
-            database=db_name,
+            username=os.environ.get('DB_USER'),
+            password=os.environ.get('DB_PASS'),
+            database=os.environ.get('DB_NAME'),
             query={
                 "unix_sock": "{}/{}/.s.PGSQL.5432".format(
-                    db_socket_dir,  # e.g. "/cloudsql"
-                    cloud_sql_connection_name)
+                    # The default socket directory value in Cloud Run
+                    # is `/cloudsql`, so this only needs to be specified
+                    # during local development.
+                    os.environ.get('DB_SOCKET_DIR', '/cloudsql'),
+                    os.environ.get('CLOUD_SQL_CONNECTION_NAME'),
+                )
             }
         ),
         **db_config
