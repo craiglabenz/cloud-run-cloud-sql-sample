@@ -47,20 +47,6 @@ def init_unix_connection_engine(db_config):
 
 db = init_db_connection()
 
-@app.before_first_request
-def create_tables():
-    with db.connect() as conn:
-        conn.execute(
-            "CREATE TABLE IF NOT EXISTS votes "
-            "( vote_id SERIAL NOT NULL, time_cast timestamp NOT NULL, "
-            "candidate VARCHAR(6) NOT NULL, PRIMARY KEY (vote_id) );"
-        )
-        conn.execute(
-            "CREATE TABLE IF NOT EXISTS totals "
-            "( total_id SERIAL NOT NULL, candidate VARCHAR(6) NOT NULL,"
-            "num_votes INT DEFAULT 0, PRIMARY KEY (total_id) );"
-        )
-
 @app.route('/', methods=['GET'])
 def index():
     votes = []
