@@ -1,5 +1,8 @@
 FROM python:3.8
 
+# Update pip
+RUN pip install -U pip
+
 # Copy application dependency manifests to the container image.
 # Copying this separately prevents re-running pip install on every code change.
 COPY requirements.txt ./
