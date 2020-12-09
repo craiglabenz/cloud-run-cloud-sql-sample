@@ -18,6 +18,10 @@ candidate VARCHAR(6) NOT NULL, PRIMARY KEY (vote_id) );
 CREATE TABLE IF NOT EXISTS totals
 ( total_id SERIAL NOT NULL, candidate VARCHAR(6) NOT NULL,
 num_votes INT DEFAULT 0, PRIMARY KEY (total_id) );
+
+INSERT INTO totals (candidate, num_votes) VALUES ('TABS', 0);
+INSERT INTO totals (candidate, num_votes) VALUES ('SPACES', 0);
+
 ```
 
 ## Load testing
