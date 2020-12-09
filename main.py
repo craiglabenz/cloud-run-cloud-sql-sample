@@ -7,6 +7,9 @@ import time
 from flask import Flask, render_template, request, Response
 import sqlalchemy
 
+# Hydrate the environment from the .env file
+from dotenv import load_dotenv
+load_dotenv()
 
 app = Flask(__name__)
 
@@ -29,11 +32,7 @@ def init_unix_connection_engine(db_config):
             password=os.environ.get('DB_PASS'),
             database=os.environ.get('DB_NAME'),
             query={
-                "unix_sock": "{}/{}/.s.PGSQL.5432".format(
-                    # The default socket directory value in Cloud Run
-                    # is `/cloudsql`, so this only needs to be specified
-                    # during local development.
-                    os.environ.get('DB_SOCKET_DIR', '/cloudsql'),
+                "unix_sock": "/cloudsql/{}/.s.PGSQL.5432".format(
                     os.environ.get('CLOUD_SQL_CONNECTION_NAME'),
                 )
             }
