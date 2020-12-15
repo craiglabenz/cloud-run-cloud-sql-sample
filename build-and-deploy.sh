@@ -1,8 +1,8 @@
 #! /bin/bash
 
-export PROJECT_ID=
-export REGION=
-export CONNECTION_NAME=
+export PROJECT_ID=tabs-vs-spaces-297517
+export REGION=europe-north1
+export CONNECTION_NAME=tabs-vs-spaces-297517:europe-north1:poll-db
 
 gcloud builds submit \
   --tag gcr.io/$PROJECT_ID/poll \
